@@ -34,18 +34,6 @@ const regularResult = document.getElementById("regular-result") as HTMLElement;
 const highScore = document.getElementById("high-score") as HTMLElement;
 const resultSection = document.getElementById("results") as HTMLElement;
 
-// First result
-const firstWpm = document.getElementById("first-wpm") as HTMLSpanElement;
-const firstAccuracy = document.getElementById(
-  "first-accuracy",
-) as HTMLSpanElement;
-const firstCorrect = document.getElementById(
-  "first-correct",
-) as HTMLSpanElement;
-const firstincorrect = document.getElementById(
-  "first-accuracy",
-) as HTMLSpanElement;
-
 const state = {
   started: false,
   finished: false,
@@ -96,6 +84,8 @@ const fetchData = async (
       span.textContent = char;
       word.appendChild(span);
     });
+
+    updateStats();
   } catch (error) {
     console.error("Failed to fetch passages:", error);
   }
@@ -106,6 +96,8 @@ function resetGame(): void {
     clearInterval(timerId);
     timerId = null;
   }
+
+  // updateStats();
 
   state.started = false;
   state.finished = false;
@@ -204,12 +196,8 @@ function handleTyping(event: KeyboardEvent): void {
   if (nextSpan) {
     nextSpan.classList.add("current");
   } else {
+    updateStats();
     state.finished = true;
-    console.log("Test Finished");
-    console.log("Correct:", state.correctChars);
-    console.log("Incorrect:", state.incorrectChars);
-    console.log("Typed:", state.typedCharacters);
-
     finishTest();
   }
 }
@@ -229,12 +217,14 @@ function startTimer(): void {
     if (state.timer <= 0) {
       clearInterval(timerId!);
       timerId = null;
+      updateStats();
+      finishTest();
     }
   }, 1000);
 }
 
 const updateStats = (): void => {
-  timeCountdown.textContent = state.timer.toString();
+  timeCountdown.textContent = "0:" + state.timer.toString();
 
   const elapsedTime = state.totalTime - state.timer;
   const wordTyped = state.correctChars / 5;
@@ -245,9 +235,21 @@ const updateStats = (): void => {
   const typingAccuracy =
     state.typedCharacters > 0
       ? (state.correctChars / state.typedCharacters) * 100
-      : 100;
+      : 0;
 
-  accuracy.textContent = typingAccuracy.toFixed();
+  accuracy.classList.remove("good", "warning", "wrong");
+
+  if (state.typedCharacters === 0) {
+    accuracy.classList.add("wrong");
+  } else if (typingAccuracy >= 95) {
+    accuracy.classList.add("good");
+  } else if (typingAccuracy >= 70) {
+    accuracy.classList.add("warning");
+  } else {
+    accuracy.classList.add("wrong");
+  }
+
+  accuracy.textContent = typingAccuracy.toFixed() + "%";
 
   state.wpm = wpm;
   state.accuracy = typingAccuracy;
@@ -262,9 +264,37 @@ function finishTest(): void {
     timerId = null;
   }
 
+  const accuracyClass =
+    state.accuracy === 0
+      ? "wrong"
+      : state.accuracy >= 95
+        ? "good"
+        : state.accuracy >= 70
+          ? "warning"
+          : "wrong";
+
+  document
+    .querySelectorAll(".first-wpm")
+    .forEach((el) => (el.textContent = state.wpm.toFixed()));
+  document.querySelectorAll(".first-accuracy").forEach((el) => {
+    el.classList.remove("good", "warning", "wrong");
+    el.classList.add(accuracyClass);
+    el.textContent = state.accuracy.toFixed(1) + "%";
+  });
+  document.querySelectorAll(".first-correct").forEach((el) => {
+    el.textContent = state.correctChars.toString();
+    el.classList.add("good");
+  });
+  document.querySelectorAll(".first-incorrect").forEach((el) => {
+    el.textContent = state.incorrectChars.toString();
+    el.classList.add("wrong");
+  });
+
   if (state.personalBest === 0) {
     resultSection.classList.remove("hidden");
     firstResult.classList.remove("hidden");
+    regularResult.classList.add("hidden");
+    highScore.classList.add("hidden");
   }
 }
 

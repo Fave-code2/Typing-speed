@@ -21,7 +21,7 @@
 
   --Correct-Text: hsl(140, 63%, 57%);
 
-  --Timer: hsl(49, 85%, 70%);
+  --warning: hsl(49, 85%, 70%);
 }
 
 body {
@@ -62,13 +62,18 @@ body {
 
 span {
   color: var(--Header-Color);
-  font-size: 0.9rem;
+  font-size: 1.2rem;
 }
 
 .score {
   display: flex;
   align-items: center;
   gap: 0.8rem;
+}
+
+.score span {
+  font-weight: bolder;
+  font-size: 1.2rem;
 }
 
 .score p:not(:first-child) {
@@ -341,6 +346,18 @@ span {
   text-decoration-color: var(--Wrong-Text);
   text-decoration-style: solid;
   text-underline-offset: 8px;
+}
+
+.good {
+  color: var(--Correct-Text);
+}
+
+.wrong {
+  color: var(--Wrong-Text);
+}
+
+.warning {
+  color: var(--warning);
 }
 
 .attribution a {
