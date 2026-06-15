@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./src/assets/images/favicon-32x32.png"
+    />
+    <title>Frontend Mentor | Typing Speed Test</title>
+    <script type="module" src="./src/main.ts"></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="desktop">
+        <img src="./src/assets/images/logo-large.svg" alt="logo-large" />
+      </div>
+
+      <div class="mobile">
+        <img src="./src/assets/images/logo-small.svg" alt="logo-small" />
+      </div>
+
+      <div class="top-display">
+        <img
+          src="./src/assets/images/icon-personal-best.svg"
+          alt="icon-personal-best"
+        />
+        <p class="desktop">Personal best: <span>90 WPM</span></p>
+        <p class="mobile">Best: <span>90 WPM</span></p>
+      </div>
+    </header>
+
+    <main>
+      <!-- Setup -->
+      <section class="settings">
+        <div class="settings-head">
+          <div class="score">
+            <p>WPM: <span id="word-per-minute">0</span></p>
+            <p>Accuracy: <span id="accuracy">0</span>%</p>
+            <p>
+              Time: <span>0:</span>
+              <span id="time-countdown" class="inline">60</span>s
+            </p>
+          </div>
+
+          <div class="desktop">
+            <section class="setting-group">
+              <p>Difficulty:</p>
+              <button type="button" id="easy">Easy</button>
+              <button type="button" id="medium">Medium</button>
+              <button type="button" id="hard">Hard</button>
+            </section>
+
+            <section class="setting-group">
+              <p>Mode:</p>
+
+              <button type="button" id="desktop-timer">Timed (60s)</button>
+              <button type="button" id="passage">Passage</button>
+            </section>
+          </div>
+
+          <div class="mobile header-dropdown">
+            <div class="dropdown level" id="level">
+              <button class="dropdown-btn">
+                Hard
+                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />
+              </button>
+
+              <ul class="dropdown-menu">
+                <li id="mobile-difficulty-easy">
+                  <input type="radio" name="difficulty" />
+                  Easy
+                </li>
+                <li id="mobile-difficulty-medium">
+                  <input type="radio" name="difficulty" />
+                  Medium
+                </li>
+                <li id="mobile-difficulty-hard">
+                  <input type="radio" name="difficulty" />
+                  Hard
+                </li>
+              </ul>
+            </div>
+
+            <div class="dropdown timer" id="timer">
+              <button class="dropdown-btn">
+                Timed (60s)
+                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />
+              </button>
+
+              <ul class="dropdown-menu">
+                <li>
+                  <input type="radio" name="difficulty" />
+                  Timed (60s)
+                </li>
+                <li>
+                  <input type="radio" name="difficulty" />
+                  Passage
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Typing Test -->
+      <section id="test">
+        <div>
+          <p class="word" id="word"></p>
+
+          <input
+            type="text"
+            id="typing-input"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+          />
+
+          <div class="button-center">
+            <button class="restart" id="restart">
+              Restart Test
+              <img
+                src="./src/assets/images/icon-restart.svg"
+                alt="icon-restart"
+              />
+            </button>
+          </div>
+        </div>
+
+        <div class="overlay">
+          <button id="start-btn">Start Typing Test</button>
+          <p>Or click the text and start typing</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Results -->
+    <section id="results" class="hidden">
+      <article class="first-card hidden" id="first-result">
+        <div>
+          <div class="completed-icon">
+            <img
+              src="./src/assets/images/icon-completed.svg"
+              alt="icon-completed"
+            />
+          </div>
+
+          <h2>Baseline Established!</h2>
+
+          <p>
+            You've set the bar. Now the real challenge begins-time to beat it.
+          </p>
+        </div>
+
+        <div class="complete">
+          <div class="complete-score">
+            <p>WPM:</p>
+            <p><span id="first-wpm"></span></p>
+          </div>
+          <div class="complete-score">
+            <p>Accuracy:</p>
+            <p><span id="first-accuracy"></span>%</p>
+          </div>
+          <div class="complete-score">
+            <p>Characters:</p>
+            <p>
+              <span id="first-correct"></span>/<span
+                id="first-incorrect"
+              ></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="best-button">
+          <button id="beat-best-score">
+            Beat This Score
+            <img src="./src/assets/images/color-restart.svg" alt="restart" />
+          </button>
+        </div>
+      </article>
+
+      <article class="first-card hidden" id="regular-result">
+        <div>
+          <div class="completed-icon">
+            <img
+              src="./src/assets/images/icon-completed.svg"
+              alt="icon-completed"
+            />
+          </div>
+
+          <h2>Test Completed!</h2>
+
+          <p>Solid run. Keep pushing to beat your high score.</p>
+        </div>
+
+        <div class="complete">
+          <div class="complete-score">
+            <p>WPM:</p>
+            <p><span>85</span></p>
+          </div>
+          <div class="complete-score">
+            <p>Accuracy:</p>
+            <p><span>100%</span></p>
+          </div>
+          <div class="complete-score">
+            <p>Characters:</p>
+            <p><span>120</span>/<span>5</span></p>
+          </div>
+        </div>
+
+        <div class="best-button">
+          <button id="go-again">
+            Go Again
+            <img src="./src/assets/images/color-restart.svg" alt="restart" />
+          </button>
+        </div>
+      </article>
+
+      <article class="first-card hidden" id="high-score">
+        <div>
+          <div>
+            <img
+              src="./src/assets/images/icon-new-pb.svg"
+              alt="icon-completed"
+            />
+          </div>
+
+          <h2>High Score Smashed!</h2>
+
+          <p>You're getting faster, That was incredible typing.</p>
+        </div>
+
+        <div class="complete">
+          <div class="complete-score">
+            <p>WPM:</p>
+            <p><span>85</span></p>
+          </div>
+          <div class="complete-score">
+            <p>Accuracy:</p>
+            <p><span>100%</span></p>
+          </div>
+          <div class="complete-score">
+            <p>Characters:</p>
+            <p><span>120</span>/<span>5</span></p>
+          </div>
+        </div>
+
+        <div class="best-button">
+          <button id="beat-best-score">
+            Beat This Score
+            <img src="./src/assets/images/color-restart.svg" alt="restart" />
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Test Complete Start -->
+
+    <!-- Test Complete!  WPM: -->
+    <!--  -->
+    <!--  -->
+    <!-- Accuracy -->
+    <!--  -->
+    <!-- Correct/Incorrect -->
+
+    <!-- Go Again -->
+
+    <!-- maybe 1,2,3,5,9,14,18,30,39
+no 6,21
+yes 11,19,23,26,27,28,29,31,32,35,36,-->
+    <!-- Call number 32 again to know how she's doing -->
+
+    <!-- <footer class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
+      Coded by <a href="#">Your Name Here</a>.
+    </footer> -->
+  </body>
+</html>
