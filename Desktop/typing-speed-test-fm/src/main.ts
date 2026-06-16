@@ -89,6 +89,14 @@ const fetchData = async (
   }
 };
 
+const saved = localStorage.getItem("personalBest");
+if (saved) {
+  state.personalBest = parseFloat(saved);
+  document.querySelectorAll(".personal-best").forEach((pb) => {
+    pb.textContent = state.personalBest.toFixed() + " WPM";
+  });
+}
+
 function resetGame(): void {
   if (timerId) {
     clearInterval(timerId);
@@ -155,23 +163,14 @@ function handleTyping(event: KeyboardEvent): void {
   const currentSpan = spans[state.currentIndex];
 
   if (!currentSpan) {
-    state.finished = true;
+    // state.finished = true;
     return;
   }
 
   const expectedLetter = currentSpan.textContent ?? "";
   const typedLetter = event.key;
 
-  if (
-    typedLetter === "Shift" ||
-    typedLetter === "Control" ||
-    typedLetter === "Alt" ||
-    typedLetter === "Meta" ||
-    typedLetter === "CapsLock" ||
-    typedLetter === "Tab"
-  ) {
-    return;
-  }
+  if (event.key.length > 1 && event.key !== " ") return;
 
   state.typedCharacters++;
 
@@ -207,7 +206,6 @@ function startTimer(): void {
     }
 
     state.timer--;
-
     if (state.timer <= 15) {
       timeCountdown.classList.add("wrong");
       timeCountdown.classList.remove("warning");
@@ -270,15 +268,22 @@ function finishTest(): void {
     timerId = null;
   }
 
+  // Save the previous PB before updating it
+  const previousBest = state.personalBest;
   const finalWpm = state.wpm;
 
-  if (finalWpm > state.personalBest) {
+  const isFirstRun = previousBest === 0;
+  const isNewPersonalBest = !isFirstRun && finalWpm > previousBest;
+
+  // Update personal best if this run beats it
+  if (finalWpm > previousBest) {
     state.personalBest = finalWpm;
-    document
-      .querySelectorAll(".personal-best")
-      .forEach(
-        (pb) => (pb.textContent = state.personalBest.toFixed() + " WPM"),
-      );
+
+    localStorage.setItem("personalBest", state.personalBest.toString());
+
+    document.querySelectorAll(".personal-best").forEach((pb) => {
+      pb.textContent = state.personalBest.toFixed() + " WPM";
+    });
   }
 
   const accuracyClass =
@@ -290,31 +295,46 @@ function finishTest(): void {
           ? "warning"
           : "wrong";
 
-  document
-    .querySelectorAll(".first-wpm")
-    .forEach((el) => (el.textContent = state.wpm.toFixed()));
+  document.querySelectorAll(".first-wpm").forEach((el) => {
+    el.textContent = state.wpm.toFixed();
+  });
+
   document.querySelectorAll(".first-accuracy").forEach((el) => {
     el.classList.remove("good", "warning", "wrong");
     el.classList.add(accuracyClass);
-    el.textContent = state.accuracy.toFixed(1) + "%";
+    el.textContent = state.accuracy.toFixed() + "%";
   });
+
   document.querySelectorAll(".first-correct").forEach((el) => {
     el.textContent = state.correctChars.toString();
+    el.classList.remove("good");
     el.classList.add("good");
   });
+
   document.querySelectorAll(".first-incorrect").forEach((el) => {
     el.textContent = state.incorrectChars.toString();
+    el.classList.remove("wrong");
     el.classList.add("wrong");
   });
 
   resultSection.classList.remove("hidden");
 
-  if (state.personalBest === 0) {
+  // Determine which result card to display
+  if (isFirstRun) {
+    // First completed test
     firstResult.classList.remove("hidden");
     regularResult.classList.add("hidden");
+    highScore.classList.add("hidden");
+  } else if (isNewPersonalBest) {
+    // Existing PB beaten
+    firstResult.classList.add("hidden");
+    regularResult.classList.add("hidden");
+    highScore.classList.remove("hidden");
   } else {
+    // Normal run
     firstResult.classList.add("hidden");
     regularResult.classList.remove("hidden");
+    highScore.classList.add("hidden");
   }
 }
 

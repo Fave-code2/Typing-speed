@@ -231,10 +231,15 @@ span {
 .first-card h2 {
   color: var(--Header-Color);
   margin: 3rem 0 0.5rem;
+  font-size: 2rem;
+}
+
+.first-card span {
+  font-size: 1.5rem;
 }
 
 .first-card p {
-  font-size: 0.8rem;
+  font-size: 1.5rem;
 }
 
 .completed-icon {
@@ -299,11 +304,16 @@ span {
   border-radius: 0.5rem;
   padding: 0.8rem;
   cursor: pointer;
+  font-size: 1.4rem;
 }
 
+.first-card button:active,
+.first-card button:hover {
+  background-color: #696666;
+}
 .first-card button img {
   color: var(--Blur-BG);
-  width: 15px;
+  width: 20px;
 }
 
 .attribution {
