@@ -4,11 +4,9 @@ import axios from "axios";
 const easy = document.getElementById("easy") as HTMLButtonElement;
 const medium = document.getElementById("medium") as HTMLButtonElement;
 const hard = document.getElementById("hard") as HTMLButtonElement;
-const desktopTimer = document.getElementById(
-  "desktop-timer",
-) as HTMLButtonElement;
-const passage = document.getElementById("passage") as HTMLButtonElement;
-const restart = document.getElementById("restart") as HTMLButtonElement;
+// const desktopTimer = document.getElementById("desktop-timer") as HTMLButtonElement;
+// const passage = document.getElementById("passage") as HTMLButtonElement;
+// const restart = document.getElementById("restart") as HTMLButtonElement;
 const startBtn = document.getElementById("start-btn") as HTMLButtonElement;
 const word = document.getElementById("word") as HTMLParagraphElement;
 const overlay = document.querySelector(".overlay") as HTMLDivElement;
@@ -96,8 +94,6 @@ function resetGame(): void {
     clearInterval(timerId);
     timerId = null;
   }
-
-  // updateStats();
 
   state.started = false;
   state.finished = false;
@@ -212,6 +208,16 @@ function startTimer(): void {
 
     state.timer--;
 
+    if (state.timer <= 15) {
+      timeCountdown.classList.add("wrong");
+      timeCountdown.classList.remove("warning");
+    } else if (state.timer <= 45) {
+      timeCountdown.classList.add("warning");
+      timeCountdown.classList.remove("wrong");
+    } else {
+      timeCountdown.classList.remove("wrong", "warning");
+    }
+
     updateStats();
 
     if (state.timer <= 0) {
@@ -264,6 +270,17 @@ function finishTest(): void {
     timerId = null;
   }
 
+  const finalWpm = state.wpm;
+
+  if (finalWpm > state.personalBest) {
+    state.personalBest = finalWpm;
+    document
+      .querySelectorAll(".personal-best")
+      .forEach(
+        (pb) => (pb.textContent = state.personalBest.toFixed() + " WPM"),
+      );
+  }
+
   const accuracyClass =
     state.accuracy === 0
       ? "wrong"
@@ -290,13 +307,15 @@ function finishTest(): void {
     el.classList.add("wrong");
   });
 
+  resultSection.classList.remove("hidden");
+
   if (state.personalBest === 0) {
-    resultSection.classList.remove("hidden");
     firstResult.classList.remove("hidden");
     regularResult.classList.add("hidden");
-    highScore.classList.add("hidden");
+  } else {
+    firstResult.classList.add("hidden");
+    regularResult.classList.remove("hidden");
   }
 }
 
-// finishTest();
 // resetTest();
