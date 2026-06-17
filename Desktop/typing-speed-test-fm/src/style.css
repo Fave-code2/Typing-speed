@@ -107,6 +107,11 @@ span {
   outline: none;
 }
 
+.setting-group button.active {
+  border: 2px solid var(--Header-Btn);
+  color: var(--Header-Btn);
+}
+
 .setting-group button:active {
   outline: 2px solid var(--Header-Btn);
   color: var(--Header-Btn);
@@ -372,6 +377,7 @@ span {
 
 .attribution a {
   color: hsl(228, 45%, 44%);
+  font-size: 1.2rem;
 }
 
 @media screen and (orientation: landscape) {

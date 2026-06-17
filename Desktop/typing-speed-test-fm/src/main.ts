@@ -4,9 +4,11 @@ import axios from "axios";
 const easy = document.getElementById("easy") as HTMLButtonElement;
 const medium = document.getElementById("medium") as HTMLButtonElement;
 const hard = document.getElementById("hard") as HTMLButtonElement;
-// const desktopTimer = document.getElementById("desktop-timer") as HTMLButtonElement;
-// const passage = document.getElementById("passage") as HTMLButtonElement;
-// const restart = document.getElementById("restart") as HTMLButtonElement;
+const desktopTimer = document.getElementById(
+  "desktop-timer",
+) as HTMLButtonElement;
+const passage = document.getElementById("passage") as HTMLButtonElement;
+const restart = document.getElementById("restart") as HTMLButtonElement;
 const startBtn = document.getElementById("start-btn") as HTMLButtonElement;
 const word = document.getElementById("word") as HTMLParagraphElement;
 const overlay = document.querySelector(".overlay") as HTMLDivElement;
@@ -32,6 +34,9 @@ const regularResult = document.getElementById("regular-result") as HTMLElement;
 const highScore = document.getElementById("high-score") as HTMLElement;
 const resultSection = document.getElementById("results") as HTMLElement;
 
+const difficultyButtons = [easy, medium, hard];
+const timerButtons = [desktopTimer, passage];
+
 const state = {
   started: false,
   finished: false,
@@ -44,6 +49,8 @@ const state = {
   personalBest: 0,
   wpm: 0,
   accuracy: 0,
+  difficulty: "easy" as keyof ApiResponse,
+  mode: "timed" as "timed" | "passage",
 };
 
 let timerId: number | null = null;
@@ -117,30 +124,57 @@ fetchData("/src/data.json", "easy");
 function EventListeners(): void {
   // Desktop difficulty navigation
   easy.addEventListener("click", () => {
+    state.difficulty = "easy";
+    difficultyButtons.forEach((el) => el.classList.remove("active"));
+    easy.classList.add("active");
     fetchData("/src/data.json", "easy");
   });
   medium.addEventListener("click", () => {
+    state.difficulty = "medium";
+    difficultyButtons.forEach((el) => el.classList.remove("active"));
+    medium.classList.add("active");
     fetchData("/src/data.json", "medium");
   });
   hard.addEventListener("click", () => {
+    state.difficulty = "hard";
+    difficultyButtons.forEach((el) => el.classList.remove("active"));
+    hard.classList.add("active");
     fetchData("/src/data.json", "hard");
   });
 
   // Mobile difficulty navigation
   mobileDifficultyEasy.addEventListener("click", () => {
+    state.difficulty = "easy";
     fetchData("/src/data.json", "easy");
   });
   mobileDifficultyMedium.addEventListener("click", () => {
+    state.difficulty = "medium";
     fetchData("/src/data.json", "medium");
   });
   mobileDifficultyHard.addEventListener("click", () => {
+    state.difficulty = "hard";
     fetchData("/src/data.json", "hard");
   });
 
   startBtn.addEventListener("click", startTest);
   typingInput.addEventListener("keydown", handleTyping);
+
+  desktopTimer.addEventListener("click", () => {
+    state.mode = "timed";
+    timerButtons.forEach((el) => el.classList.remove("active"));
+    desktopTimer.classList.add("active");
+  });
+
+  passage.addEventListener("click", () => {
+    if (state.started) return; // don't allow switching mid-test
+    timerButtons.forEach((el) => el.classList.remove("active"));
+    passage.classList.add("active");
+    state.mode = "passage";
+  });
 }
 
+easy.classList.add("active");
+desktopTimer.classList.add("active");
 EventListeners();
 
 function startTest(): void {
@@ -152,8 +186,11 @@ function startTest(): void {
 
   state.started = true;
 
+  if (state.mode === "timed") {
+    startTimer();
+  }
+
   typingInput.focus();
-  startTimer();
 }
 
 function handleTyping(event: KeyboardEvent): void {
@@ -307,17 +344,16 @@ function finishTest(): void {
 
   document.querySelectorAll(".first-correct").forEach((el) => {
     el.textContent = state.correctChars.toString();
-    el.classList.remove("good");
     el.classList.add("good");
   });
 
   document.querySelectorAll(".first-incorrect").forEach((el) => {
     el.textContent = state.incorrectChars.toString();
-    el.classList.remove("wrong");
     el.classList.add("wrong");
   });
 
   resultSection.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
 
   // Determine which result card to display
   if (isFirstRun) {
@@ -338,4 +374,18 @@ function finishTest(): void {
   }
 }
 
-// resetTest();
+function restartTest(): void {
+  restart.addEventListener("click", () => {
+    resetGame();
+
+    word.querySelectorAll("span").forEach((el) => {
+      el.className = "";
+    });
+
+    updateStats();
+
+    startTest();
+  });
+}
+
+restartTest();

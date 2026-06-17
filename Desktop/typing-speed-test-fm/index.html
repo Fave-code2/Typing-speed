@@ -38,12 +38,14 @@
       <!-- Setup -->
       <section class="settings">
         <div class="settings-head">
+          <!-- Score, Accuracy and timer -->
           <div class="score">
             <p>WPM: <span id="word-per-minute"></span></p>
             <p>Accuracy: <span id="accuracy"></span></p>
             <p>Time: <span id="time-countdown"></span></p>
           </div>
 
+          <!-- Desktop difficulty level -->
           <div class="desktop">
             <section class="setting-group">
               <p>Difficulty:</p>
@@ -60,6 +62,7 @@
             </section>
           </div>
 
+          <!-- Mobile difficulty level -->
           <div class="mobile header-dropdown">
             <div class="dropdown level" id="level">
               <button class="dropdown-btn">
@@ -138,6 +141,7 @@
 
     <!-- Results -->
     <section id="results" class="hidden">
+      <!-- Baseline result -->
       <article class="first-card hidden" id="first-result">
         <div>
           <div class="completed-icon">
@@ -181,6 +185,7 @@
         </div>
       </article>
 
+      <!-- Regular Result -->
       <article class="first-card hidden" id="regular-result">
         <div>
           <div class="completed-icon">
@@ -215,13 +220,14 @@
         </div>
 
         <div class="best-button">
-          <button id="go-again">
+          <button class="beat-best-score">
             Go Again
             <img src="./src/assets/images/color-restart.svg" alt="restart" />
           </button>
         </div>
       </article>
 
+      <!-- High score smashed -->
       <article class="first-card hidden" id="high-score">
         <div>
           <div>
@@ -264,26 +270,12 @@
       </article>
     </section>
 
-    <!-- Test Complete Start -->
-
-    <!-- Test Complete!  WPM: -->
-    <!--  -->
-    <!--  -->
-    <!-- Accuracy -->
-    <!--  -->
-    <!-- Correct/Incorrect -->
-
-    <!-- Go Again -->
-
-    <!-- maybe 1,2,3,5,9,14,18,30,39
-no 6,21
-yes 11,19,23,26,27,28,29,31,32,35,36,-->
-    <!-- Call number 32 again to know how she's doing -->
-
-    <!-- <footer class="attribution">
+    <!-- Footer -->
+    <footer class="attribution">
       Challenge by
       <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
-      Coded by <a href="#">Your Name Here</a>.
-    </footer> -->
+      Coded by
+      <a href="https://x.com/thefavestyle" target="_blank">Fave_Codes</a>.
+    </footer>
   </body>
 </html>
