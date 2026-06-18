@@ -51,6 +51,7 @@ const state = {
   accuracy: 0,
   difficulty: "easy" as keyof ApiResponse,
   mode: "timed" as "timed" | "passage",
+  passageTimer: 0,
 };
 
 let timerId: number | null = null;
@@ -160,6 +161,7 @@ function EventListeners(): void {
   typingInput.addEventListener("keydown", handleTyping);
 
   desktopTimer.addEventListener("click", () => {
+    if (state.started) return;
     state.mode = "timed";
     timerButtons.forEach((el) => el.classList.remove("active"));
     desktopTimer.classList.add("active");
@@ -170,6 +172,10 @@ function EventListeners(): void {
     timerButtons.forEach((el) => el.classList.remove("active"));
     passage.classList.add("active");
     state.mode = "passage";
+  });
+
+  document.querySelectorAll(".beat-best-score").forEach((button) => {
+    button.addEventListener("click", beatBestScoreAndGoAgain);
   });
 }
 
@@ -185,6 +191,7 @@ function startTest(): void {
   word.querySelector("span")?.classList.add("current");
 
   state.started = true;
+  state.passageTimer = Date.now();
 
   if (state.mode === "timed") {
     startTimer();
@@ -221,6 +228,8 @@ function handleTyping(event: KeyboardEvent): void {
     currentSpan.classList.add("incorrect");
   }
 
+  updateStats();
+
   state.currentIndex++;
 
   const nextSpan = spans[state.currentIndex];
@@ -228,7 +237,6 @@ function handleTyping(event: KeyboardEvent): void {
   if (nextSpan) {
     nextSpan.classList.add("current");
   } else {
-    updateStats();
     state.finished = true;
     finishTest();
   }
@@ -267,7 +275,14 @@ function startTimer(): void {
 const updateStats = (): void => {
   timeCountdown.textContent = "0:" + state.timer.toString();
 
-  const elapsedTime = state.totalTime - state.timer;
+  let elapsedTime;
+
+  if (state.mode === "timed") {
+    elapsedTime = state.totalTime - state.timer;
+  } else {
+    elapsedTime = (Date.now() - state.passageTimer) / 1000;
+  }
+
   const wordTyped = state.correctChars / 5;
   const minute = elapsedTime / 60;
   const wpm = minute > 0 ? wordTyped / minute : 0;
@@ -389,3 +404,20 @@ function restartTest(): void {
 }
 
 restartTest();
+
+async function beatBestScoreAndGoAgain() {
+  resultSection.classList.add("hidden");
+  firstResult.classList.add("hidden");
+  regularResult.classList.add("hidden");
+  highScore.classList.add("hidden");
+
+  resetGame();
+
+  await fetchData("/src/data.json", state.difficulty);
+
+  word.querySelector("span")?.classList.add("current");
+
+  overlay.classList.add("hidden");
+
+  startTest();
+}
