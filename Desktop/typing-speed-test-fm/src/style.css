@@ -138,9 +138,10 @@ span {
 }
 
 #typing-input {
-  position: absolute;
+  position: fixed;
+  left: -9999px;
+  top: 0;
   opacity: 0;
-  pointer-events: none;
 }
 
 .current {
@@ -185,7 +186,7 @@ span {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 70vh;
 
   /* Blur whatever is behind the overlay */
   backdrop-filter: blur(5px);
@@ -458,6 +459,7 @@ span {
   }
 
   .dropdown-btn {
+    font-size: 1rem;
     background: transparent;
     outline: none;
     color: var(--Header-Color);
@@ -487,9 +489,13 @@ span {
     color: var(--Text-Color);
   }
 
+  .dropdown-menu.show {
+    display: block;
+  }
+
   .dropdown-menu li {
     padding: 0.5rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .dropdown-menu li:not(:last-child) {

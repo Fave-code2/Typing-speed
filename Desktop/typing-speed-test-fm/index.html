@@ -13,30 +13,30 @@
     <script type="module" src="./src/main.ts"></script>
   </head>
   <body>
-    <header class="header">
-      <div class="desktop">
-        <img src="./src/assets/images/logo-large.svg" alt="logo-large" />
+    <header class="header-container">
+      <div class="header">
+        <div class="desktop">
+          <img src="./src/assets/images/logo-large.svg" alt="logo-large" />
+        </div>
+
+        <div class="mobile">
+          <img src="./src/assets/images/logo-small.svg" alt="logo-small" />
+        </div>
+
+        <div class="top-display">
+          <img
+            src="./src/assets/images/icon-personal-best.svg"
+            alt="icon-personal-best"
+          />
+          <p class="desktop">
+            Personal best: <span class="personal-best">0</span>
+          </p>
+          <p class="mobile">Best: <span class="personal-best">0</span></p>
+        </div>
       </div>
 
-      <div class="mobile">
-        <img src="./src/assets/images/logo-small.svg" alt="logo-small" />
-      </div>
-
-      <div class="top-display">
-        <img
-          src="./src/assets/images/icon-personal-best.svg"
-          alt="icon-personal-best"
-        />
-        <p class="desktop">
-          Personal best: <span class="personal-best">0</span>
-        </p>
-        <p class="mobile">Best: <span class="personal-best">0</span></p>
-      </div>
-    </header>
-
-    <main>
       <!-- Setup -->
-      <section class="settings">
+      <nav class="settings">
         <div class="settings-head">
           <!-- Score, Accuracy and timer -->
           <div class="score">
@@ -65,8 +65,8 @@
           <!-- Mobile difficulty level -->
           <div class="mobile header-dropdown">
             <div class="dropdown level" id="level">
-              <button class="dropdown-btn">
-                Hard
+              <button class="dropdown-btn" id="mobile-level">
+                Easy
                 <img src="./src/assets/images/icon-down-arrow.svg" alt="" />
               </button>
 
@@ -93,20 +93,22 @@
               </button>
 
               <ul class="dropdown-menu">
-                <li>
-                  <input type="radio" name="difficulty" />
+                <li class="mobile-timer-control">
+                  <input type="radio" name="mode" />
                   Timed (60s)
                 </li>
-                <li>
-                  <input type="radio" name="difficulty" />
+                <li class="mobile-passage-control">
+                  <input type="radio" name="mode" />
                   Passage
                 </li>
               </ul>
             </div>
           </div>
         </div>
-      </section>
+      </nav>
+    </header>
 
+    <main>
       <!-- Typing Test -->
       <section id="test">
         <div>

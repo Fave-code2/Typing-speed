@@ -33,6 +33,16 @@ const firstResult = document.getElementById("first-result") as HTMLElement;
 const regularResult = document.getElementById("regular-result") as HTMLElement;
 const highScore = document.getElementById("high-score") as HTMLElement;
 const resultSection = document.getElementById("results") as HTMLElement;
+const mobileLevel = document.getElementById(
+  "mobile-level",
+) as HTMLButtonElement;
+
+const mobileTimeController = document.querySelector(
+  ".mobile-timer-control",
+) as HTMLLIElement;
+const mobilePassageController = document.querySelector(
+  ".mobile-passage-control",
+) as HTMLLIElement;
 
 const difficultyButtons = [easy, medium, hard];
 const timerButtons = [desktopTimer, passage];
@@ -122,39 +132,129 @@ function resetGame(): void {
 
 fetchData("/src/data.json", "easy");
 
+// function EventListeners(): void {
+//   // Desktop difficulty navigation
+//   easy.addEventListener("click", () => {
+//     state.difficulty = "easy";
+//     difficultyButtons.forEach((el) => el.classList.remove("active"));
+//     easy.classList.add("active");
+//     fetchData("/src/data.json", "easy");
+//   });
+//   medium.addEventListener("click", () => {
+//     state.difficulty = "medium";
+//     difficultyButtons.forEach((el) => el.classList.remove("active"));
+//     medium.classList.add("active");
+//     fetchData("/src/data.json", "medium");
+//   });
+//   hard.addEventListener("click", () => {
+//     state.difficulty = "hard";
+//     difficultyButtons.forEach((el) => el.classList.remove("active"));
+//     hard.classList.add("active");
+//     fetchData("/src/data.json", "hard");
+//   });
+
+//   // Mobile difficulty navigation
+// const difficultyOptions = [
+//   { element: mobileDifficultyEasy, level: "easy", label: "Easy" },
+//   { element: mobileDifficultyMedium, level: "medium", label: "Medium" },
+//   { element: mobileDifficultyHard, level: "hard", label: "Hard" },
+// ] as const;
+
+// difficultyOptions.forEach(({ element, level, label }) => {
+//   const radio = element?.querySelector("input") as HTMLInputElement;
+
+//   element?.addEventListener("click", () => {
+//     state.difficulty = level;
+//     radio.checked = true;
+//     fetchData("/src/data.json", level);
+//     mobileLevel.innerHTML = `${label}
+//     <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+//     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+//       menu.classList.remove("show");
+//     });
+//   });
+// });
+
+//   startBtn.addEventListener("click", startTest);
+//   typingInput.addEventListener("keydown", handleTyping);
+
+//   desktopTimer.addEventListener("click", () => {
+//     if (state.started) return;
+//     state.mode = "timed";
+//     timerButtons.forEach((el) => el.classList.remove("active"));
+//     desktopTimer.classList.add("active");
+//   });
+
+//   passage.addEventListener("click", () => {
+//     if (state.started) return; // don't allow switching mid-test
+//     timerButtons.forEach((el) => el.classList.remove("active"));
+//     passage.classList.add("active");
+//     state.mode = "passage";
+//   });
+
+//   document.querySelectorAll(".beat-best-score").forEach((button) => {
+//     button.addEventListener("click", beatBestScoreAndGoAgain);
+//   });
+
+//   // Mobile drop button
+//   document.querySelectorAll(".dropdown").forEach((dropdown) => {
+//     const button = dropdown.querySelector(".dropdown-btn");
+//     const menu = dropdown.querySelector(".dropdown-menu");
+
+//     button?.addEventListener("click", () => {
+//       menu?.classList.toggle("show");
+//     });
+//   });
+// }
+
 function EventListeners(): void {
   // Desktop difficulty navigation
-  easy.addEventListener("click", () => {
-    state.difficulty = "easy";
-    difficultyButtons.forEach((el) => el.classList.remove("active"));
-    easy.classList.add("active");
-    fetchData("/src/data.json", "easy");
-  });
-  medium.addEventListener("click", () => {
-    state.difficulty = "medium";
-    difficultyButtons.forEach((el) => el.classList.remove("active"));
-    medium.classList.add("active");
-    fetchData("/src/data.json", "medium");
-  });
-  hard.addEventListener("click", () => {
-    state.difficulty = "hard";
-    difficultyButtons.forEach((el) => el.classList.remove("active"));
-    hard.classList.add("active");
-    fetchData("/src/data.json", "hard");
+  const difficulties = [
+    { element: easy, level: "easy" },
+    { element: medium, level: "medium" },
+    { element: hard, level: "hard" },
+  ] as const;
+
+  difficulties.forEach(({ element, level }) => {
+    element.addEventListener("click", () => {
+      state.difficulty = level;
+      difficultyButtons.forEach((el) => el.classList.remove("active"));
+      element.classList.add("active");
+      fetchData("/src/data.json", level);
+    });
   });
 
   // Mobile difficulty navigation
+  const easyRadio = mobileDifficultyEasy?.querySelector(
+    "input",
+  ) as HTMLInputElement;
+  easyRadio.checked = true;
   mobileDifficultyEasy.addEventListener("click", () => {
     state.difficulty = "easy";
+    easyRadio.checked = true;
     fetchData("/src/data.json", "easy");
+    mobileLevel.innerHTML = `Easy
+                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
   });
+  const mediumRadio = mobileDifficultyMedium?.querySelector(
+    "input",
+  ) as HTMLInputElement;
   mobileDifficultyMedium.addEventListener("click", () => {
     state.difficulty = "medium";
+    mediumRadio.checked = true;
     fetchData("/src/data.json", "medium");
+    mobileLevel.innerHTML = `Medium
+                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
   });
+  const hardRadio = mobileDifficultyHard?.querySelector(
+    "input",
+  ) as HTMLInputElement;
   mobileDifficultyHard.addEventListener("click", () => {
+    hardRadio.checked = true;
     state.difficulty = "hard";
     fetchData("/src/data.json", "hard");
+    mobileLevel.innerHTML = `Hard
+                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
   });
 
   startBtn.addEventListener("click", startTest);
@@ -176,6 +276,52 @@ function EventListeners(): void {
 
   document.querySelectorAll(".beat-best-score").forEach((button) => {
     button.addEventListener("click", beatBestScoreAndGoAgain);
+  });
+
+  // Mobile drop button
+  document.querySelectorAll(".dropdown").forEach((dropdown) => {
+    const button = dropdown.querySelector(".dropdown-btn");
+    const menu = dropdown.querySelector(".dropdown-menu");
+
+    button?.addEventListener("click", () => {
+      menu?.classList.toggle("show");
+    });
+  });
+
+  // mobile mode
+
+  const button = document.querySelector(
+    ".timer .dropdown-btn",
+  ) as HTMLButtonElement;
+
+  const timerRadio = mobileTimeController.querySelector(
+    "input",
+  ) as HTMLInputElement;
+  timerRadio.checked = true;
+
+  mobileTimeController.addEventListener("click", () => {
+    if (state.started) return;
+    state.mode = "timed";
+    timerRadio.checked = true;
+    document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+      menu.classList.remove("show");
+    });
+    button.innerHTML = `Timed (60s)
+               <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+  });
+
+  const passageRadio = mobilePassageController.querySelector(
+    "input",
+  ) as HTMLInputElement;
+  mobilePassageController.addEventListener("click", () => {
+    if (state.started) return;
+    state.mode = "passage";
+    passageRadio.checked = true;
+    document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+      menu.classList.remove("show");
+    });
+    button.innerHTML = `Passage
+               <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
   });
 }
 
@@ -413,11 +559,11 @@ async function beatBestScoreAndGoAgain() {
 
   resetGame();
 
+  typingInput.focus();
+
   await fetchData("/src/data.json", state.difficulty);
 
   word.querySelector("span")?.classList.add("current");
-
-  overlay.classList.add("hidden");
 
   startTest();
 }
