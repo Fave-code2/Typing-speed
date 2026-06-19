@@ -43,6 +43,7 @@ const mobileTimeController = document.querySelector(
 const mobilePassageController = document.querySelector(
   ".mobile-passage-control",
 ) as HTMLLIElement;
+const home = document.querySelectorAll(".home");
 
 const difficultyButtons = [easy, medium, hard];
 const timerButtons = [desktopTimer, passage];
@@ -235,7 +236,11 @@ function EventListeners(): void {
     fetchData("/src/data.json", "easy");
     mobileLevel.innerHTML = `Easy
                 <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+    document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+      menu.classList.remove("show");
+    });
   });
+
   const mediumRadio = mobileDifficultyMedium?.querySelector(
     "input",
   ) as HTMLInputElement;
@@ -245,7 +250,11 @@ function EventListeners(): void {
     fetchData("/src/data.json", "medium");
     mobileLevel.innerHTML = `Medium
                 <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+    document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+      menu.classList.remove("show");
+    });
   });
+
   const hardRadio = mobileDifficultyHard?.querySelector(
     "input",
   ) as HTMLInputElement;
@@ -255,6 +264,9 @@ function EventListeners(): void {
     fetchData("/src/data.json", "hard");
     mobileLevel.innerHTML = `Hard
                 <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+    document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+      menu.classList.remove("show");
+    });
   });
 
   startBtn.addEventListener("click", startTest);
@@ -323,6 +335,19 @@ function EventListeners(): void {
     button.innerHTML = `Passage
                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
   });
+
+  // home button
+  home.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      regularResult.classList.add("hidden");
+      resultSection.classList.add("hidden");
+      firstResult.classList.add("hidden");
+      highScore.classList.add("hidden");
+
+      overlay.classList.remove("hidden");
+      fetchData("/src/data.json", state.difficulty);
+    });
+  });
 }
 
 easy.classList.add("active");
@@ -382,6 +407,11 @@ function handleTyping(event: KeyboardEvent): void {
 
   if (nextSpan) {
     nextSpan.classList.add("current");
+
+    nextSpan.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
   } else {
     state.finished = true;
     finishTest();
