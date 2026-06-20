@@ -107,11 +107,11 @@ span {
   color: var(--Header-Color);
   cursor: pointer;
   outline: none;
-  font-size: 0.8rem;
+  font-size: 0.5rem;
 }
 
 .setting-group p {
-  font-size: 0.8rem;
+  font-size: 0.3rem;
 }
 
 .setting-group button.active {
