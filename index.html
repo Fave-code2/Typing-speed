@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./src/assets/images/favicon-32x32.png"
+    />
+    <title>Frontend Mentor | Typing Speed Test</title>
+    <script type="module" src="./src/main.ts"></script>
+  </head>
+  <body>
+    <header class="header-container">
+      <div class="header">
+        <div class="desktop">
+          <img src="./src/assets/images/logo-large.svg" alt="logo-large" />
+        </div>
+
+        <div class="mobile">
+          <img src="./src/assets/images/logo-small.svg" alt="logo-small" />
+        </div>
+
+        <div class="top-display">
+          <img
+            src="./src/assets/images/icon-personal-best.svg"
+            alt="icon-personal-best"
+          />
+          <p class="desktop">
+            Personal best: <span class="personal-best">0</span>
+          </p>
+          <p class="mobile">Best: <span class="personal-best">0</span></p>
+        </div>
+      </div>
+
+      <!-- Setup -->
+      <nav class="settings">
+        <div class="settings-head">
+          <!-- Score, Accuracy and timer -->
+          <div class="score">
+            <p>WPM: <span id="word-per-minute"></span></p>
+            <p>Accuracy: <span id="accuracy"></span></p>
+            <p>Time: <span id="time-countdown"></span></p>
+          </div>
+
+          <!-- Desktop difficulty level -->
+          <div class="desktop">
+            <section class="setting-group">
+              <p>Difficulty:</p>
+              <button type="button" id="easy">Easy</button>
+              <button type="button" id="medium">Medium</button>
+              <button type="button" id="hard">Hard</button>
+            </section>
+
+            <section class="setting-group">
+              <p>Mode:</p>
+
+              <button type="button" id="desktop-timer">Timed (60s)</button>
+              <button type="button" id="passage">Passage</button>
+            </section>
+          </div>
+
+          <!-- Mobile difficulty level -->
+          <div class="mobile header-dropdown">
+            <div class="dropdown level" id="level">
+              <button class="dropdown-btn" id="mobile-level">
+                Easy
+                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />
+              </button>
+
+              <ul class="dropdown-menu">
+                <li id="mobile-difficulty-easy">
+                  <input type="radio" name="difficulty" />
+                  Easy
+                </li>
+                <li id="mobile-difficulty-medium">
+                  <input type="radio" name="difficulty" />
+                  Medium
+                </li>
+                <li id="mobile-difficulty-hard">
+                  <input type="radio" name="difficulty" />
+                  Hard
+                </li>
+              </ul>
+            </div>
+
+            <div class="dropdown timer" id="timer">
+              <button class="dropdown-btn">
+                Timed (60s)
+                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />
+              </button>
+
+              <ul class="dropdown-menu">
+                <li class="mobile-timer-control">
+                  <input type="radio" name="mode" />
+                  Timed (60s)
+                </li>
+                <li class="mobile-passage-control">
+                  <input type="radio" name="mode" />
+                  Passage
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Typing Test -->
+      <section id="test">
+        <div>
+          <p class="word" id="word"></p>
+
+          <input
+            type="text"
+            id="typing-input"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+          />
+
+          <div class="button-center">
+            <button class="restart" id="restart">
+              Restart Test
+              <img
+                src="./src/assets/images/icon-restart.svg"
+                alt="icon-restart"
+              />
+            </button>
+          </div>
+        </div>
+
+        <div class="overlay">
+          <button id="start-btn">Start Typing Test</button>
+          <p>Or click the text and start typing</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Results -->
+    <section id="results" class="hidden">
+      <!-- Baseline result -->
+      <article class="first-card hidden" id="first-result">
+        <div>
+          <div class="completed-icon">
+            <img
+              src="./src/assets/images/icon-completed.svg"
+              alt="icon-completed"
+            />
+          </div>
+
+          <h2>Baseline Established!</h2>
+
+          <p>
+            You've set the bar. Now the real challenge begins-time to beat it.
+          </p>
+        </div>
+
+        <div class="complete">
+          <div class="complete-score">
+            <p>WPM:</p>
+            <p><span class="first-wpm"></span></p>
+          </div>
+          <div class="complete-score">
+            <p>Accuracy:</p>
+            <p><span class="first-accuracy"></span></p>
+          </div>
+          <div class="complete-score">
+            <p>Characters:</p>
+            <p>
+              <span class="first-correct"></span>/<span
+                class="first-incorrect"
+              ></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="best-button">
+          <button class="beat-best-score">
+            Beat This Score
+            <img src="./src/assets/images/color-restart.svg" alt="restart" />
+          </button>
+          <button class="home">Home</button>
+        </div>
+      </article>
+
+      <!-- Regular Result -->
+      <article class="first-card hidden" id="regular-result">
+        <div>
+          <div class="completed-icon">
+            <img
+              src="./src/assets/images/icon-completed.svg"
+              alt="icon-completed"
+            />
+          </div>
+
+          <h2>Test Completed!</h2>
+
+          <p>Solid run. Keep pushing to beat your high score.</p>
+        </div>
+
+        <div class="complete">
+          <div class="complete-score">
+            <p>WPM:</p>
+            <p><span class="first-wpm"></span></p>
+          </div>
+          <div class="complete-score">
+            <p>Accuracy:</p>
+            <p><span class="first-accuracy"></span></p>
+          </div>
+          <div class="complete-score">
+            <p>Characters:</p>
+            <p>
+              <span class="first-correct"></span>/<span
+                class="first-incorrect"
+              ></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="best-button">
+          <button class="beat-best-score">
+            Go Again
+            <img src="./src/assets/images/color-restart.svg" alt="restart" />
+          </button>
+          <button class="home">Home</button>
+        </div>
+      </article>
+
+      <!-- High score smashed -->
+      <article class="first-card hidden" id="high-score">
+        <div>
+          <div>
+            <img
+              src="./src/assets/images/icon-new-pb.svg"
+              alt="icon-completed"
+            />
+          </div>
+
+          <h2>High Score Smashed!</h2>
+
+          <p>You're getting faster, That was incredible typing.</p>
+        </div>
+
+        <div class="complete">
+          <div class="complete-score">
+            <p>WPM:</p>
+            <p><span class="first-wpm"></span></p>
+          </div>
+          <div class="complete-score">
+            <p>Accuracy:</p>
+            <p><span class="first-accuracy"></span></p>
+          </div>
+          <div class="complete-score">
+            <p>Characters:</p>
+            <p>
+              <span class="first-correct"></span>/<span
+                class="first-incorrect"
+              ></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="best-button">
+          <button class="beat-best-score">
+            Beat This Score
+            <img src="./src/assets/images/color-restart.svg" alt="restart" />
+          </button>
+          <button class="home">Home</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Footer -->
+    <footer class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
+      Coded by
+      <a href="https://x.com/thefavestyle" target="_blank">Fave_Codes</a>.
+    </footer>
+  </body>
+</html>
