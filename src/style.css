@@ -110,6 +110,10 @@ span {
   font-size: 0.8rem;
 }
 
+.setting-group p {
+  font-size: 0.8rem;
+}
+
 .setting-group button.active {
   border: 2px solid var(--Header-Btn);
   color: var(--Header-Btn);
