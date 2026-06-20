@@ -181,14 +181,16 @@ span {
 
 .overlay {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-
-  /* Blur whatever is behind the overlay */
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   z-index: 10;
