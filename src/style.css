@@ -64,7 +64,7 @@ body {
 
 span {
   color: var(--Header-Color);
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .score {
@@ -75,7 +75,7 @@ span {
 
 .score span {
   font-weight: bolder;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .score p:not(:first-child) {
@@ -107,6 +107,7 @@ span {
   color: var(--Header-Color);
   cursor: pointer;
   outline: none;
+  font-size: 0.8rem;
 }
 
 .setting-group button.active {
