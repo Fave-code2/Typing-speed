@@ -94,7 +94,7 @@ const fetchData = async (
     const random = passages[Math.floor(Math.random() * passages.length)];
 
     word.innerHTML = "";
-    overlay.classList.remove("hidden");
+    // overlay.classList.remove("hidden");
 
     random.text.split("").forEach((char) => {
       const span = document.createElement("span");
