@@ -131,7 +131,7 @@ function resetGame(): void {
   state.timer = state.totalTime;
 }
 
-fetchData("/src/data.json", "easy");
+fetchData("/data.json", "easy");
 
 // function EventListeners(): void {
 //   // Desktop difficulty navigation
@@ -139,19 +139,19 @@ fetchData("/src/data.json", "easy");
 //     state.difficulty = "easy";
 //     difficultyButtons.forEach((el) => el.classList.remove("active"));
 //     easy.classList.add("active");
-//     fetchData("/src/data.json", "easy");
+//     fetchData("/data.json", "easy");
 //   });
 //   medium.addEventListener("click", () => {
 //     state.difficulty = "medium";
 //     difficultyButtons.forEach((el) => el.classList.remove("active"));
 //     medium.classList.add("active");
-//     fetchData("/src/data.json", "medium");
+//     fetchData("/data.json", "medium");
 //   });
 //   hard.addEventListener("click", () => {
 //     state.difficulty = "hard";
 //     difficultyButtons.forEach((el) => el.classList.remove("active"));
 //     hard.classList.add("active");
-//     fetchData("/src/data.json", "hard");
+//     fetchData("/data.json", "hard");
 //   });
 
 //   // Mobile difficulty navigation
@@ -167,7 +167,7 @@ fetchData("/src/data.json", "easy");
 //   element?.addEventListener("click", () => {
 //     state.difficulty = level;
 //     radio.checked = true;
-//     fetchData("/src/data.json", level);
+//     fetchData("/data.json", level);
 //     mobileLevel.innerHTML = `${label}
 //     <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
 //     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
@@ -221,7 +221,7 @@ function EventListeners(): void {
       state.difficulty = level;
       difficultyButtons.forEach((el) => el.classList.remove("active"));
       element.classList.add("active");
-      fetchData("/src/data.json", level);
+      fetchData("/data.json", level);
     });
   });
 
@@ -233,7 +233,7 @@ function EventListeners(): void {
   mobileDifficultyEasy.addEventListener("click", () => {
     state.difficulty = "easy";
     easyRadio.checked = true;
-    fetchData("/src/data.json", "easy");
+    fetchData("/data.json", "easy");
     mobileLevel.innerHTML = `Easy
                 <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
@@ -247,7 +247,7 @@ function EventListeners(): void {
   mobileDifficultyMedium.addEventListener("click", () => {
     state.difficulty = "medium";
     mediumRadio.checked = true;
-    fetchData("/src/data.json", "medium");
+    fetchData("/data.json", "medium");
     mobileLevel.innerHTML = `Medium
                 <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
@@ -261,7 +261,7 @@ function EventListeners(): void {
   mobileDifficultyHard.addEventListener("click", () => {
     hardRadio.checked = true;
     state.difficulty = "hard";
-    fetchData("/src/data.json", "hard");
+    fetchData("/data.json", "hard");
     mobileLevel.innerHTML = `Hard
                 <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
@@ -345,7 +345,7 @@ function EventListeners(): void {
       highScore.classList.add("hidden");
 
       overlay.classList.remove("hidden");
-      fetchData("/src/data.json", state.difficulty);
+      fetchData("/data.json", state.difficulty);
     });
   });
 }
@@ -591,7 +591,7 @@ async function beatBestScoreAndGoAgain() {
 
   typingInput.focus();
 
-  await fetchData("/src/data.json", state.difficulty);
+  await fetchData("/data.json", state.difficulty);
 
   word.querySelector("span")?.classList.add("current");
 
