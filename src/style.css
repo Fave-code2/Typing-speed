@@ -29,6 +29,7 @@ body {
   color: var(--Text-Color);
   padding: 1rem;
   min-height: 100vh;
+  overflow-y: hidden;
 }
 
 .header {
@@ -63,7 +64,7 @@ body {
 
 span {
   color: var(--Header-Color);
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .score {
@@ -74,7 +75,7 @@ span {
 
 .score span {
   font-weight: bolder;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .score p:not(:first-child) {
