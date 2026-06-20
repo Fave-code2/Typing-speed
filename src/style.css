@@ -28,6 +28,7 @@ body {
   background: var(--BG);
   color: var(--Text-Color);
   padding: 1rem;
+  min-height: 100vh;
 }
 
 .header {
