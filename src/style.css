@@ -100,7 +100,7 @@ span {
 .setting-group button {
   background: transparent;
   border: 1px solid var(--Neutral-500);
-  padding: 0.5rem 0.8rem;
+  padding: 0.3rem 0.5em;
   border-radius: 0.6rem;
   color: var(--Header-Color);
   cursor: pointer;
