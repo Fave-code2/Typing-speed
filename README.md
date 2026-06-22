@@ -46,8 +46,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### Links
 
-- Solution URL: [https://github.com/Fave-code2/Typing-speed-test]
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [https://github.com/Fave-code2/Typing-speed]
+- Live Site URL: [Add live site URL here](https://typing-speed-zeta-two.vercel.app/)
 
 ## My process
 
