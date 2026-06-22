@@ -2,6 +2,7 @@ import "./style.css";
 import axios from "axios";
 import arrowIcon from "./assets/images/icon-down-arrow.svg";
 
+// DOM References
 const easy = document.getElementById("easy") as HTMLButtonElement;
 const medium = document.getElementById("medium") as HTMLButtonElement;
 const hard = document.getElementById("hard") as HTMLButtonElement;
@@ -46,9 +47,11 @@ const mobilePassageController = document.querySelector(
 ) as HTMLLIElement;
 const home = document.querySelectorAll(".home");
 
+// Button Groups
 const difficultyButtons = [easy, medium, hard];
 const timerButtons = [desktopTimer, passage];
 
+// Game State
 const state = {
   started: false,
   finished: false,
@@ -68,6 +71,7 @@ const state = {
 
 let timerId: number | null = null;
 
+// Interfaces
 interface Word {
   id: number;
   text: string;
@@ -79,6 +83,7 @@ interface ApiResponse {
   hard: Word[];
 }
 
+// Fetch Passage Data
 const fetchData = async (
   url: string,
   difficulty: keyof ApiResponse,
@@ -92,14 +97,16 @@ const fetchData = async (
       throw new Error(`No passages found for difficulty: ${difficulty}`);
     }
 
-    // Avoid scrolling effect
+    // Prevent scrolling effect while test is active
     document.body.style.overflow = "hidden";
 
+    // Pick a random passage from the selected difficulty mode
     const random = passages[Math.floor(Math.random() * passages.length)];
 
     word.innerHTML = "";
     overlay.classList.remove("hidden");
 
+    // Split passage into individual character spans for tracking
     random.text.split("").forEach((char) => {
       const span = document.createElement("span");
       span.textContent = char;
@@ -112,6 +119,7 @@ const fetchData = async (
   }
 };
 
+// Load Personal Best from localStorage
 const saved = localStorage.getItem("personalBest");
 if (saved) {
   state.personalBest = parseFloat(saved);
@@ -120,6 +128,7 @@ if (saved) {
   });
 }
 
+// Reset Game State
 function resetGame(): void {
   if (timerId) {
     clearInterval(timerId);
@@ -135,6 +144,7 @@ function resetGame(): void {
   state.timer = state.totalTime;
 }
 
+// Initial Data Load
 fetchData("/data.json", "easy");
 
 // function EventListeners(): void {
@@ -173,7 +183,7 @@ fetchData("/data.json", "easy");
 //     radio.checked = true;
 //     fetchData("/data.json", level);
 //     mobileLevel.innerHTML = `${label}
-//     <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+//     <img src="./src/assets/images/icon-down-arrow.svg"  />`;
 //     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
 //       menu.classList.remove("show");
 //     });
@@ -212,8 +222,10 @@ fetchData("/data.json", "easy");
 //   });
 // }
 
+// All App EventListener
+
 function EventListeners(): void {
-  // Desktop difficulty navigation
+  // Desktop Difficulty Buttons Navigation
   const difficulties = [
     { element: easy, level: "easy" },
     { element: medium, level: "medium" },
@@ -229,17 +241,17 @@ function EventListeners(): void {
     });
   });
 
-  // Mobile difficulty navigation
+  // Mobile Difficulty Dropdown Navigation
   const easyRadio = mobileDifficultyEasy?.querySelector(
     "input",
   ) as HTMLInputElement;
-  easyRadio.checked = true;
+  easyRadio.checked = true; // default to easy on load
   mobileDifficultyEasy.addEventListener("click", () => {
     state.difficulty = "easy";
     easyRadio.checked = true;
     fetchData("/data.json", "easy");
     mobileLevel.innerHTML = `Easy
-                <img src="${arrowIcon}" alt="" />`;
+                <img src="${arrowIcon}"  />`;
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
       menu.classList.remove("show");
     });
@@ -253,7 +265,7 @@ function EventListeners(): void {
     mediumRadio.checked = true;
     fetchData("/data.json", "medium");
     mobileLevel.innerHTML = `Medium
-                <img src="${arrowIcon}" alt="" />`;
+                <img src="${arrowIcon}"  />`;
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
       menu.classList.remove("show");
     });
@@ -267,34 +279,37 @@ function EventListeners(): void {
     state.difficulty = "hard";
     fetchData("/data.json", "hard");
     mobileLevel.innerHTML = `Hard
-                <img src="${arrowIcon}" alt="" />`;
+                <img src="${arrowIcon}"  />`;
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
       menu.classList.remove("show");
     });
   });
 
+  // Core Test Controls
   startBtn.addEventListener("click", startTest);
   typingInput.addEventListener("keydown", handleTyping);
 
+  // Desktop Mode Buttons
   desktopTimer.addEventListener("click", () => {
-    if (state.started) return;
+    if (state.started) return; // prevent switching mid-test
     state.mode = "timed";
     timerButtons.forEach((el) => el.classList.remove("active"));
     desktopTimer.classList.add("active");
   });
 
   passage.addEventListener("click", () => {
-    if (state.started) return; // don't allow switching mid-test
+    if (state.started) return; // prevent switching mid-test
     timerButtons.forEach((el) => el.classList.remove("active"));
     passage.classList.add("active");
     state.mode = "passage";
   });
 
+  // Result Action Buttons, restart typing from result screen
   document.querySelectorAll(".beat-best-score").forEach((button) => {
     button.addEventListener("click", beatBestScoreAndGoAgain);
   });
 
-  // Mobile drop button
+  // Mobile Dropdown Toggle
   document.querySelectorAll(".dropdown").forEach((dropdown) => {
     const button = dropdown.querySelector(".dropdown-btn");
     const menu = dropdown.querySelector(".dropdown-menu");
@@ -304,16 +319,15 @@ function EventListeners(): void {
     });
   });
 
-  // mobile mode
-
-  const button = document.querySelector(
+  // Mobile Mode Dropdown
+  const modeButton = document.querySelector(
     ".timer .dropdown-btn",
   ) as HTMLButtonElement;
 
   const timerRadio = mobileTimeController.querySelector(
     "input",
   ) as HTMLInputElement;
-  timerRadio.checked = true;
+  timerRadio.checked = true; // default to timed on load
 
   mobileTimeController.addEventListener("click", () => {
     if (state.started) return;
@@ -322,8 +336,8 @@ function EventListeners(): void {
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
       menu.classList.remove("show");
     });
-    button.innerHTML = `Timed (60s)
-               <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+    modeButton.innerHTML = `Timed (60s)
+               <img src="${arrowIcon}" />`;
   });
 
   const passageRadio = mobilePassageController.querySelector(
@@ -336,11 +350,11 @@ function EventListeners(): void {
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
       menu.classList.remove("show");
     });
-    button.innerHTML = `Passage
-               <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+    modeButton.innerHTML = `Passage
+               <img src="${arrowIcon}" />`;
   });
 
-  // home button
+  // Home Button return to start screen
   home.forEach((btn) => {
     resetGame();
     btn.addEventListener("click", () => {
@@ -355,20 +369,24 @@ function EventListeners(): void {
   });
 }
 
+// Set Default Active States
 easy.classList.add("active");
 desktopTimer.classList.add("active");
 EventListeners();
 
+// Start Test
 function startTest(): void {
   if (state.started) return;
 
   overlay.classList.add("hidden");
 
+  // Highlight the first character
   word.querySelector("span")?.classList.add("current");
 
   state.started = true;
   state.passageTimer = Date.now();
 
+  // Only start countdown in timed mode
   if (state.mode === "timed") {
     startTimer();
   }
@@ -376,24 +394,30 @@ function startTest(): void {
   typingInput.focus();
 }
 
+// Handle Keystrokes
 function handleTyping(event: KeyboardEvent): void {
   if (!state.started || state.finished) return;
+
+  /// Prevent tab key from moving focus away from the hidden input
+  if (event.key === "Tab") {
+    event.preventDefault();
+    return;
+  }
 
   const spans = word.querySelectorAll("span");
   const currentSpan = spans[state.currentIndex];
 
-  if (!currentSpan) {
-    // state.finished = true;
-    return;
-  }
+  if (!currentSpan) return;
 
   const expectedLetter = currentSpan.textContent ?? "";
   const typedLetter = event.key;
 
+  // Ignore modifier keys (Shift, Ctrl, etc.) except Space
   if (event.key.length > 1 && event.key !== " ") return;
 
   state.typedCharacters++;
 
+  // Add correct or incorrect class based on the typed character
   if (typedLetter === expectedLetter) {
     state.correctChars++;
     currentSpan.classList.remove("current");
@@ -419,11 +443,13 @@ function handleTyping(event: KeyboardEvent): void {
     //   block: "center",
     // });
   } else {
+    // When all characters are typed end the test
     state.finished = true;
     finishTest();
   }
 }
 
+// Countdown Timer
 function startTimer(): void {
   timerId = window.setInterval(() => {
     if (state.finished) {
@@ -433,6 +459,8 @@ function startTimer(): void {
     }
 
     state.timer--;
+
+    // Update timer color based on time remaining
     if (state.timer <= 15) {
       timeCountdown.classList.add("wrong");
       timeCountdown.classList.remove("warning");
@@ -454,6 +482,7 @@ function startTimer(): void {
   }, 1000);
 }
 
+// Update Live Stats (WPM, Accuracy, Timer)
 const updateStats = (): void => {
   timeCountdown.textContent = "0:" + state.timer.toString();
 
@@ -462,14 +491,17 @@ const updateStats = (): void => {
   if (state.mode === "timed") {
     elapsedTime = state.totalTime - state.timer;
   } else {
+    // Passage mode: calculate elapsed time from when test started
     elapsedTime = (Date.now() - state.passageTimer) / 1000;
   }
 
+  // WPM = (correct characters / 5) / minutes elapsed
   const wordTyped = state.correctChars / 5;
   const minute = elapsedTime / 60;
   const wpm = minute > 0 ? wordTyped / minute : 0;
   wordPerMinute.textContent = wpm.toFixed();
 
+  // Accuracy = correct characters / total typed characters
   const typingAccuracy =
     state.typedCharacters > 0
       ? (state.correctChars / state.typedCharacters) * 100
@@ -493,6 +525,7 @@ const updateStats = (): void => {
   state.accuracy = typingAccuracy;
 };
 
+// Finish Test & Show Results
 function finishTest(): void {
   state.started = false;
   state.finished = true;
@@ -509,7 +542,7 @@ function finishTest(): void {
   const isFirstRun = previousBest === 0;
   const isNewPersonalBest = !isFirstRun && finalWpm > previousBest;
 
-  // Update personal best if this run beats it
+  // Save new personal best if beaten
   if (finalWpm > previousBest) {
     state.personalBest = finalWpm;
 
@@ -552,7 +585,7 @@ function finishTest(): void {
   resultSection.classList.remove("hidden");
   document.body.style.overflow = "hidden";
 
-  // Determine which result card to display
+  // Determine which result card to display based on wpm
   if (isFirstRun) {
     // First completed test
     firstResult.classList.remove("hidden");
@@ -571,10 +604,12 @@ function finishTest(): void {
   }
 }
 
+// Restart Test (same passage)
 function restartTest(): void {
   restart.addEventListener("click", () => {
     resetGame();
 
+    // Clear all character highlight classes
     word.querySelectorAll("span").forEach((el) => {
       el.className = "";
     });
@@ -587,19 +622,19 @@ function restartTest(): void {
 
 restartTest();
 
+// Beat Best Score / Go Again
 async function beatBestScoreAndGoAgain() {
+  // Hide all result cards
   resultSection.classList.add("hidden");
   firstResult.classList.add("hidden");
   regularResult.classList.add("hidden");
   highScore.classList.add("hidden");
 
   resetGame();
-
   typingInput.focus();
 
+  // Fetch a new passage and immediately start
   await fetchData("/data.json", state.difficulty);
-
   word.querySelector("span")?.classList.add("current");
-
   startTest();
 }
