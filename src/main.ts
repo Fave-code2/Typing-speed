@@ -1,5 +1,6 @@
 import "./style.css";
 import axios from "axios";
+import arrowIcon from "./assets/images/icon-down-arrow.svg";
 
 const easy = document.getElementById("easy") as HTMLButtonElement;
 const medium = document.getElementById("medium") as HTMLButtonElement;
@@ -235,7 +236,7 @@ function EventListeners(): void {
     easyRadio.checked = true;
     fetchData("/data.json", "easy");
     mobileLevel.innerHTML = `Easy
-                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+                <img src="${arrowIcon}" alt="" />`;
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
       menu.classList.remove("show");
     });
@@ -249,7 +250,7 @@ function EventListeners(): void {
     mediumRadio.checked = true;
     fetchData("/data.json", "medium");
     mobileLevel.innerHTML = `Medium
-                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+                <img src="${arrowIcon}" alt="" />`;
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
       menu.classList.remove("show");
     });
@@ -263,7 +264,7 @@ function EventListeners(): void {
     state.difficulty = "hard";
     fetchData("/data.json", "hard");
     mobileLevel.innerHTML = `Hard
-                <img src="./src/assets/images/icon-down-arrow.svg" alt="" />`;
+                <img src="${arrowIcon}" alt="" />`;
     document.querySelectorAll(".dropdown-menu").forEach((menu) => {
       menu.classList.remove("show");
     });
@@ -338,6 +339,7 @@ function EventListeners(): void {
 
   // home button
   home.forEach((btn) => {
+    resetGame();
     btn.addEventListener("click", () => {
       regularResult.classList.add("hidden");
       resultSection.classList.add("hidden");
