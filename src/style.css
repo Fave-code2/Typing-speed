@@ -198,7 +198,7 @@ span {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(18, 18, 18, 0.5);
+  background: rgba(18, 18, 18, 0.9);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   z-index: 10;
@@ -327,7 +327,7 @@ span {
 }
 .first-card button img {
   color: var(--Blur-BG);
-  width: 10px;
+  width: 13px;
 }
 
 .attribution {
