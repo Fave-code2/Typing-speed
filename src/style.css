@@ -27,7 +27,7 @@
 body {
   background: var(--BG);
   color: var(--Text-Color);
-  padding: 1rem;
+  padding: 0.55rem 1rem;
   min-height: 100vh;
   overflow-y: hidden;
 }
@@ -59,7 +59,7 @@ body {
 
 .settings {
   border-bottom: 1px solid var(--Neutral-500);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 span {
@@ -135,12 +135,12 @@ span {
 
 #test .word {
   line-height: 1.5;
-
   border-bottom: 1px solid var(--Neutral-500);
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }
+
 #test .word span {
-  font-size: 2rem;
+  font-size: 1.8rem;
   padding-bottom: 0.5rem;
 }
 

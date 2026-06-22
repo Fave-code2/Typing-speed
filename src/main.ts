@@ -92,6 +92,9 @@ const fetchData = async (
       throw new Error(`No passages found for difficulty: ${difficulty}`);
     }
 
+    // Avoid scrolling effect
+    document.body.style.overflow = "hidden";
+
     const random = passages[Math.floor(Math.random() * passages.length)];
 
     word.innerHTML = "";
@@ -410,10 +413,11 @@ function handleTyping(event: KeyboardEvent): void {
   if (nextSpan) {
     nextSpan.classList.add("current");
 
-    nextSpan.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
+    // Stop mobile scrolling
+    // nextSpan.scrollIntoView({
+    //   behavior: "smooth",
+    //   block: "center",
+    // });
   } else {
     state.finished = true;
     finishTest();
