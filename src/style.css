@@ -140,7 +140,7 @@ span {
   padding-bottom: 2rem;
 }
 #test .word span {
-  font-size: 1rem;
+  font-size: 2rem;
   padding-bottom: 0.5rem;
 }
 
@@ -174,7 +174,7 @@ span {
   border-radius: 0.5rem;
   color: var(--Header-Color);
   padding: 0.5rem 0.7rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 
@@ -183,12 +183,12 @@ span {
 }
 
 .restart img {
-  width: 15px;
+  width: 10px;
 }
 
 .overlay {
   position: fixed;
-  top: 20%;
+  top: 18%;
   left: 0;
   right: 0;
   bottom: 0;
