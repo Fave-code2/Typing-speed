@@ -247,12 +247,12 @@ span {
 .first-card h2 {
   color: var(--Header-Color);
   margin: 3rem 0 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .first-card span,
 .first-card p {
-  font-size: 0.85rem;
+  font-size: 0.5rem;
 }
 
 .completed-icon {
@@ -327,7 +327,7 @@ span {
 }
 .first-card button img {
   color: var(--Blur-BG);
-  width: 20px;
+  width: 10px;
 }
 
 .attribution {
