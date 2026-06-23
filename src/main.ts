@@ -415,6 +415,16 @@ function handleTyping(event: KeyboardEvent): void {
     return;
   }
 
+  // Refocus on invisible if user clicks any were on mobile.
+  document.addEventListener("touchend", () => {
+    typingInput.focus();
+  });
+
+  // Refocus on invisible if user clicks any were on desktop.
+  document.addEventListener("click", () => {
+    typingInput.focus();
+  });
+
   const spans = word.querySelectorAll("span");
   const currentSpan = spans[state.currentIndex];
 
