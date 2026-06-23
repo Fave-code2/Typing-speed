@@ -294,9 +294,20 @@ function EventListeners(): void {
     });
   });
 
-  // Core Test Controls
+  // Core Test Controls starts here.
   startBtn.addEventListener("click", startTest);
-  typingInput.addEventListener("keydown", handleTyping);
+  // Triggers input on android.
+  typingInput.addEventListener("input", () => {
+    const value = typingInput.value;
+    if (value.length === 0) return;
+
+    const lastChar = value[value.length - 1];
+    const fakeEvent = new KeyboardEvent("keydown", { key: lastChar });
+    handleTyping(fakeEvent);
+
+    typingInput.value = ""; // clear after each character
+  });
+  // Core Test Controls ends here.
 
   // Desktop Mode Buttons
   desktopTimer.addEventListener("click", () => {
@@ -363,6 +374,16 @@ function EventListeners(): void {
                <img src="${arrowIcon}" />`;
   });
 
+  // Refocus on invisible input if user clicks any were on mobile.
+  document.addEventListener("touchend", () => {
+    typingInput.focus();
+  });
+
+  // Refocus on invisible input if user clicks any were on desktop.
+  document.addEventListener("click", () => {
+    typingInput.focus();
+  });
+
   // Home Button return to start screen
   home.forEach((btn) => {
     resetGame();
@@ -418,16 +439,6 @@ function handleTyping(event: KeyboardEvent): void {
     event.preventDefault();
     return;
   }
-
-  // Refocus on invisible if user clicks any were on mobile.
-  document.addEventListener("touchend", () => {
-    typingInput.focus();
-  });
-
-  // Refocus on invisible if user clicks any were on desktop.
-  document.addEventListener("click", () => {
-    typingInput.focus();
-  });
 
   const spans = word.querySelectorAll("span");
   const currentSpan = spans[state.currentIndex];
