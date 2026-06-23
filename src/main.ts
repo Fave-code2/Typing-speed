@@ -104,6 +104,8 @@ const fetchData = async (
     const random = passages[Math.floor(Math.random() * passages.length)];
 
     word.innerHTML = "";
+
+    // Show overlay
     overlay.classList.remove("hidden");
 
     // Split passage into individual character spans for tracking
@@ -139,6 +141,8 @@ function resetGame(): void {
     clearInterval(timerId);
     timerId = null;
   }
+
+  timeCountdown.classList.remove("warning", "wrong"); // resets to default CSS color
 
   state.started = false;
   state.finished = false;
