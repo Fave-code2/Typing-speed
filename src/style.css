@@ -198,15 +198,17 @@ span {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(18, 18, 18, 0.85);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  background: rgba(18, 18, 18, 0.5);
   z-index: 10;
 }
 
 .overlay p {
   color: var(--Header-Color);
   margin-top: 1rem;
+}
+
+.text {
+  filter: blur(4px);
 }
 
 .overlay button {

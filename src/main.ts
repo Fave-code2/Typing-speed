@@ -110,8 +110,13 @@ const fetchData = async (
     random.text.split("").forEach((char) => {
       const span = document.createElement("span");
       span.textContent = char;
+      // Add blur to each span
+      span.classList.add("text");
       word.appendChild(span);
     });
+
+    // Hide restart test button
+    restart.classList.add("hidden");
 
     updateStats();
   } catch (error) {
@@ -383,8 +388,14 @@ function startTest(): void {
   // Highlight the first character
   word.querySelector("span")?.classList.add("current");
 
+  // Remove blur from text
+  word.querySelectorAll("span").forEach((s) => s.classList.remove("text"));
+
   state.started = true;
   state.passageTimer = Date.now();
+
+  // Display restart test button
+  restart.classList.remove("hidden");
 
   // Only start countdown in timed mode
   if (state.mode === "timed") {
