@@ -555,6 +555,15 @@ const updateStats = (): void => {
     accuracy.classList.add("wrong");
   }
 
+  // Another way for the above
+  // if (typingAccuracy >= 95) {
+  //   accuracy.classList.add("good");
+  // } else if (typingAccuracy >= 70) {
+  //   accuracy.classList.add("warning");
+  // } else {
+  //   accuracy.classList.add("wrong");
+  // }
+
   accuracy.textContent = typingAccuracy.toFixed() + "%";
 
   state.wpm = wpm;
@@ -671,6 +680,5 @@ async function beatBestScoreAndGoAgain() {
 
   // Fetch a new passage and immediately start
   await fetchData("/data.json", state.difficulty);
-  word.querySelector("span")?.classList.add("current");
   startTest();
 }
